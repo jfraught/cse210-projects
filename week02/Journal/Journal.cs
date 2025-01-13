@@ -1,26 +1,40 @@
-
+using System;
+using System.IO;
+using System.Text.Json;
 
 public class Journal
 {
     public List<Entry> _entries = new List<Entry>();
+    private readonly string file = "journal.txt";
+    // Exceed expectations. I added a readonly property because I didn't like the user inputing the file. 
 
     public void AddEntry(Entry newEntry)
     {
-        // Method implementation goes here
+        _entries.Add(newEntry);
     }
 
     public void DisplayAll()
     {
-        // Method implementation goes here
+        foreach (var entry in _entries)
+        {
+            entry.Display();
+            Console.WriteLine("");
+        }
     }
 
-    public void SaveToFile(string file)
+    // Exceed expectations. I like JSON so I used that instead of the CSV stuff. 
+    public void SaveToFile()
     {
-        // Method implementation goes here
+        string jsonString = JsonSerializer.Serialize(_entries);
+        File.WriteAllText(file, jsonString);
     }
 
-    public void LoadFromFile(string file)
+    public void LoadFromFile()
     {
-        // Method implementation goes here
+        if (File.Exists(file))
+        {
+            string jsonString = File.ReadAllText(file);
+            _entries = JsonSerializer.Deserialize<List<Entry>>(jsonString);
+        }
     }
 }
