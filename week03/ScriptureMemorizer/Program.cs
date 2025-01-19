@@ -43,6 +43,5 @@ class Program
             scripture.HideRandomWords();
             Console.Clear();
         }
-
     }
 }
